@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="col">
+        <hr>
+        <p class="h1">Lista de pokemon</p>
+        <div>
+            {% include 'pokemon/snippets/navigate.html' %}
+        </div>
+        {% if pokemons %}
+            {% include 'pokemon/snippets/list.html' %}
+        {% else %}
+            <p>No se encontro informacion de pokemon</p>
+        {% endif %}
+    </div>
+{% endblock %}
