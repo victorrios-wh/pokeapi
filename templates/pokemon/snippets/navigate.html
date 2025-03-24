@@ -1,0 +1,70 @@
+<div class="">
+    <input type="hidden" id="next_link" value="{{ next }}">
+    <input type="hidden" id="prev_link" value="{{ prev }}">
+    <button type="button" class="btn btn-info d-inline" id="prev">Prev</button>
+    <select class="form-select" aria-label="Quantity" id="quantity">
+        <option value="0"> </option>
+        <option value="5">5</option>
+        <option value="10">10</option>
+        <option value="15">15</option>
+    </select>
+    <button type="button" class="btn btn-info" id="next">Next</button>
+</div>
+
+<script>
+
+    function replaceParams(url, limit=0, changeValue=false, link="") {
+
+        if (changeValue && url.includes('?')) {
+            url = url.replace(/[?&]/g, '')
+        }
+
+        if (changeValue) {
+            if (url.includes('offset=')) {
+                url = url.replace(/(offset=\d+)/g, '')
+            }
+
+            if (url.includes('limit=')) {
+                url = url.replace(/(limit=\d+)/g, '?limit=' + limit)
+            } else {
+                url = url + '?limit=' + limit
+            }
+
+        } else {
+            if (link != ""){
+                url = url.replace(/\?.+/g, '')
+                url = url + `?${link}`
+            }
+        }
+
+        return url
+    }
+
+    const prev = document.getElementById('prev')
+    const quantity = document.getElementById('quantity')
+    const next = document.getElementById('next')
+    const next_link = document.getElementById('next_link')
+    const prev_link = document.getElementById('prev_link')
+    const url = document.URL
+    const params = new URLSearchParams(url.replace(/^.+\?/g, ''))
+
+    prev_link.value = prev_link.value.replace(/^.+\?/g, '') == 'None' ? '' : prev_link.value.replace(/^.+\?/g, '')
+    next_link.value = next_link.value.replace(/^.+\?/g, '')
+
+
+    quantity.addEventListener('change', function() {
+        const newLocation = replaceParams(url, quantity.value, true)
+        window.location.href = newLocation
+    })
+
+    prev.addEventListener('click', function() {
+        const newLocation = replaceParams(url, 0, false, prev_link.value)
+        window.location.href = newLocation
+    })
+
+    next.addEventListener('click', function() {
+        const newLocation = replaceParams(url, 0, false, next_link.value)
+        window.location.href = newLocation
+    })
+
+</script>

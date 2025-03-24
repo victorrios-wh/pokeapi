@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="col">
+        <div class="h5 text-success">{{ pokemon.name }}</div>
+        <div class="">
+            {% if pokemon.img %}
+                <img src="{{ pokemon.img }}" alt="Imagen de pokemon" width="96" height="96">
+            {% endif %}
+        </div>
+        <div class="h6 font-weight-bold" >
+            Peso: <span class="text-danger"> {{ pokemon.weight}} </span>
+            Altura: <span class="text-danger"> {{ pokemon.height}} </span>
+        </div>
+        <div class="h6 font-weight-bold">
+            Tipos:
+            <a href="{% url 'pokemon:list_type' pokemon.main_type %}" class="btn btn-primary">{{ pokemon.main_type }}</a>
+            {% if pokemon.second_type %}
+                <a href="{% url 'pokemon:list_type' pokemon.second_type %}" class="btn btn-primary">{{ pokemon.second_type }}</a>
+            {% endif %}
+        </div>
+        <div class="h6 font-weight-bold">
+            Habilidades:
+        </div>
+        <div class="" >
+            {% for ability in pokemon.abilities %}
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">{{ ability.ability.name }}</li>
+                </ul>
+            {% endfor %}
+        </div>
+        <div class="h6 font-weight-bold">
+            Ataques:
+        </div>
+        <div class="">
+            {% for move in pokemon.moves %}
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">{{ move.move.name }}</li>
+                </ul>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

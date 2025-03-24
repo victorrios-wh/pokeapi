@@ -1,0 +1,11 @@
+{% load pokemon_extras %}
+
+<div class="card h-100">
+    {% if pokemon.img %}
+        <img src="{{ pokemon.img }}" alt="Imagen de pokemon" height="96" width="96"></img>
+    {% endif %}
+    <div class="card-body">
+        <h5 class="card-title">{{ pokemon.name | to_upper }}</h5>
+        <a href="{% url 'pokemon:detail' pokemon.name %}" class="btn btn-primary">Ver detalle</a>
+    </div>
+</div>
