@@ -4,14 +4,13 @@ API_CONFIG = {
     'GET_LIST_POKEMON': {
         'method': 'GET',
         'url': 'https://pokeapi.co/api/v2/pokemon/',
-        'headers': { 'Content-Type': 'application/json; charset=utf-8', 'User-Agent': 'Code Club' },
+        'headers': { 'Content-Type': 'application/json; charset=utf-8' },
         'data': 'query'
     },
     'GET_CUSTOM_URL': {
         'method': 'GET',
         'headers': { 
             'Content-Type': 'application/json; charset=utf-8',
-            'User-Agent': 'Code-Club',
             'Accept': '*/*',
             'access-control-allow-origin': '*'
         },

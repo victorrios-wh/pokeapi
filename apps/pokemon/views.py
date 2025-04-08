@@ -32,7 +32,12 @@ def pokemon_detail(request, name):
     return render(request, 'pokemon/detail.html', contexto)
 
 def pokemon_list_by_type(request, type):
-    result_list = get_pokemon_by_type(type)
+    if request.GET:
+        args = request.GET
+    else:
+        args = { 'limit': 5, 'offset': 0 }
+
+    result_list = get_pokemon_by_type(type, args)
 
     #guardar lista en session
     request.session['list'] = result_list
@@ -44,6 +49,9 @@ def pokemon_list_by_type(request, type):
     contexto = {
         'title': 'Lista pokemon tipo: {}'.format(type),
         'type': type,
-        'pokemons': pokemon_list
+        'pokemons': pokemon_list,
+        'next': result_list['response']['next'],
+        'prev': result_list['response']['previous']
+
     }
     return render(request, 'pokemon/index.html', contexto)

@@ -51,7 +51,6 @@
     prev_link.value = prev_link.value.replace(/^.+\?/g, '') == 'None' ? '' : prev_link.value.replace(/^.+\?/g, '')
     next_link.value = next_link.value.replace(/^.+\?/g, '')
 
-
     quantity.addEventListener('change', function() {
         const newLocation = replaceParams(url, quantity.value, true)
         window.location.href = newLocation

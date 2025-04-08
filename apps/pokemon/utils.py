@@ -44,7 +44,11 @@ def get_pokemon_info(args={}):
         print('No se obtuvo informacion de pokemon')
         return {}
     
-def get_pokemon_by_type(type):
+def get_pokemon_by_type(type, args):
+
+    offset = int(args.get('offset', 0))
+    limit = int(args['limit'])
+    limit_to_show = offset + limit
 
     url = 'https://pokeapi.co/api/v2/type/{}'.format(type)
     #se hace llamado para obtener los nombres y url de los pokemon
@@ -52,8 +56,21 @@ def get_pokemon_by_type(type):
     if result_list['success'] and result_list['status'] == 200:
         #se obtuvieron datos
         
+        #se calculan los links next y prev
+        lenght_result = len(result_list['response']['pokemon'])
+        if limit_to_show > lenght_result:
+            next_link = ''
+        else:
+            next_link = 'offset={}&limit={}'.format(limit_to_show, limit)
+
+        if offset == 0:
+            prev_link = ''
+        else:
+            prev_link = 'offset={}&limit={}'.format(offset - limit, limit)
+
+        
         #se reduce la informacion en la variable para manejar mejor la informacion a insertar
-        pokemon_list = result_list['response']['pokemon']
+        pokemon_list = result_list['response']['pokemon'][offset:limit_to_show]
         del result_list['response']
         result_list['response']={ 'results':[] }
         for pokemon in pokemon_list:
@@ -84,6 +101,10 @@ def get_pokemon_by_type(type):
             else:
                 print('No se obtuvo informacion de pokemon: {}'.format(pokemon['pokemon']['name'].upper()))
 
+        result_list['response'].update({
+            'previous': prev_link,
+            'next': next_link
+        })
         return result_list
     else:
         print('No se obtuvo informacion de pokemon')
